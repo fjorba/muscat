@@ -200,10 +200,10 @@ module FolderControllerActions
         begin
           f = Folder.find(folder_id)
           if cannot?(:manage, f)
-            redirect_to resouce_path(item_id), alert: "You are not authorized to remove items from #{f.name} #{f.id}"
+            redirect_to resource_path(item_id), alert: "You are not authorized to remove items from #{f.name} #{f.id}"
           else
             f.remove_items([item_id])
-            redirect_to resouce_path(item_id), alert: "Removed 1 element from folder #{f.name} #{f.id}"
+            redirect_to resource_path(item_id), alert: "Removed 1 element from folder #{f.name} #{f.id}"
           end
         rescue ActiveRecord::RecordNotFound
           redirect_to collection_path, alert: "Folder #{folder_id} does not exists"
@@ -220,14 +220,14 @@ module FolderControllerActions
         begin
           f = Folder.find(folder_id)
           if cannot?(:manage, f)
-            redirect_to resouce_path(item_id), alert: "You are not authorized to remove items from #{f.name} #{f.id}"
+            redirect_to resource_path(item_id), alert: "You are not authorized to remove items from #{f.name} #{f.id}"
           else
             f.add_items([item_id])
             f.reload
             Sunspot.index f.folder_items
             Sunspot.commit
             
-            redirect_to resouce_path(item_id), alert: I18n.t(:added, scope: :folders, name: f.name, count: 1)
+            redirect_to resource_path(item_id), alert: I18n.t(:added, scope: :folders, name: f.name, count: 1)
           end
         rescue ActiveRecord::RecordNotFound
           redirect_to collection_path, alert: "Folder #{folder_id} does not exists"
